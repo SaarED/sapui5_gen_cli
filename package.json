@@ -1,6 +1,6 @@
 {
   "name": "sapui5_gen_cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A SAPUI5 CLI",
   "main": "src/index.js",
   "bin": {
