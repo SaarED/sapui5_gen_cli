@@ -33,8 +33,8 @@ name - the project name
 
 #### Options
 
-* -t or --template name - the project template (XML or JS)
-
+* -t, --template name - the project template (XML or JS)
+* -s, --skipsdk - Skip SDK unzip
 
 ### Generate scheme
 
