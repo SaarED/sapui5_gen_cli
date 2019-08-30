@@ -7,7 +7,7 @@ CLI for developing project in SAPUI5 **UNOFFICIAL**
 use the keyword sapui5, form information use
 
 ```
-sapui5 -h
+sapui5_gen_cli -h
 ```
 
 ## Usage
@@ -17,8 +17,8 @@ sapui5 -h
 check all commands in 
 
 ```
-sapui5 -h
-sapui5 --help
+sapui5_gen_cli -h
+sapui5_gen_cli --help
 ```
 
 ### Initalize project
@@ -26,15 +26,26 @@ sapui5 --help
 Initialize sapui5 project in folder
 
 ```
-sapui5 init|i [options] <name>
+sapui5_gen_cli init|i [options] <name>
 ```
 
 name - the project name
 
 #### Options
 
-**-t or --template name** - the project template (XML or JS)
+* -t or --template name - the project template (XML or JS)
 
+
+### Generate scheme
+
+Generate view or fragment in the project folder
+
+schema - view/fragment
+name - name of the view/fragment
+
+```
+generate|g [schema] [name]
+```
 
 ## Contributing
 
@@ -42,7 +53,8 @@ Use pull request and send push requests.
 
 ## Versioning
 
-[*] 1.0.0 - Initial and base files for the project
+* 1.0.1 - Spliting files for adding more commands
+* 1.0.0 - Initial and base files for the project
 
 ## Authors
 
@@ -50,4 +62,4 @@ Use pull request and send push requests.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE) file for details

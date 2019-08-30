@@ -60,21 +60,21 @@ const init_program = module.exports = {
             template: answers.template || options.template,
             namespace: answers.namespace,
             view: answers.view,
-            sapui5: answers.sapui5
+            sapui5: answers.sapui5,
+            skipsdk: options.skipsdk
         };
     },
 
     // Print instructions
     printInstructions: (configuration) => {
-        console.log('\n\n\n');
-        console.log('%s Successfully created project %s', chalk.bgGreen('DONE'), configuration.name);
+        console.log('\n\n');
+        console.log('%s Successfully created project %s in %dms', chalk.bgGreen(' DONE '), configuration.name, configuration.process_time);
         console.log('\n');
         console.log('Start developing with the commands:');
         console.log('\n');
         console.log(chalk.blueBright('cd ', configuration.name));
         console.log(chalk.blueBright('npm start'));
         console.log('\n');
-
         console.log( chalk.yellow('Enjoy!') );
     },
 
@@ -82,14 +82,26 @@ const init_program = module.exports = {
     program: async (name, options) => {
         let configuration = await init_program.fillConfiguration({ appName: name, template: options.template });
 
+        let time_start = new Date();
+
         const tasks = new Listr([
             {
                 title: 'Copying template files',
                 task: async () => {
-                    return await files_management.copyTemplateToDestination( 
-                        path.resolve( __dirname, '../templates', configuration.template ), 
+
+                    // Init project
+                    await files_management.copyTemplateToDestination( 
+                        path.resolve( __dirname, '../templates/init' ), 
                         path.resolve( process.cwd(), configuration.name ) 
                     );
+
+                    // Copy view
+                    await files_management.copyTemplateToDestination(
+                        path.resolve( __dirname, '../templates', 'view-'+configuration.template ), 
+                        path.resolve( process.cwd(), configuration.name ) 
+                    );
+
+                    return true;
                 }
             },
             {
@@ -128,7 +140,8 @@ const init_program = module.exports = {
                             )
                         },
                     ])
-                }
+                },
+                enabled: () => !options.skipsdk
             },
             {
                 title: 'Setting configuration',
@@ -155,7 +168,9 @@ const init_program = module.exports = {
 
         await tasks.run();
 
-        // Output done        
+        configuration.process_time = new Date() - time_start;
+
+        // Output done
         init_program.printInstructions(configuration);
 
 

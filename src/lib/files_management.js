@@ -13,7 +13,9 @@ const copy = promisify(ncp);
 const patternVars = {
     '%%APPNAME%%': 'name',
     '%%NAMESPACE%%': 'namespace',
-    '%%VIEWNAME%%': 'view'
+    '%%VIEWNAME%%': 'view',
+    '%%FRAGMENTNAME%%': 'fragment',
+    '%%SAPUI5VERSION%%': 'sapui5'
 };
 
 const folderToSkip = [
@@ -124,6 +126,29 @@ const files_management = module.exports = {
 
     checkSkipFolders: ( dir ) => {
         return ( folderToSkip.includes( path.basename( dir ) ) );
+    },
+
+    getManifestConfiguration: async( appfolder ) => {
+        if(!fs.existsSync( path.resolve(appfolder, 'webapp') )) {
+            return null;
+        }
+
+        let appConf = {};
+
+        try {
+
+            let manifest = fs.readFileSync( path.resolve(appfolder, 'webapp/manifest.json'), 'utf-8' );
+            manifest = JSON.parse(manifest);
+
+            // App type 
+            appConf["template"] = manifest["sap.ui5"]["rootView"]["type"];
+            appConf["name"] = manifest["sap.app"]["id"];
+            appConf["namespace"] = (manifest["sap.ui5"]["rootView"]["viewName"].split(appConf["name"]+'.view')[0]);
+
+            return appConf;
+        } catch(e) {
+            return null;
+        }
     }
 };
 
