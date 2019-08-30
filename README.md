@@ -53,6 +53,7 @@ Use pull request and send push requests.
 
 ## Versioning
 
+* 1.1.0 - Adding generate command
 * 1.0.1 - Spliting files for adding more commands
 * 1.0.0 - Initial and base files for the project
 
